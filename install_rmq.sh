@@ -24,9 +24,9 @@ systemctl start rabbitmq-server
 systemctl enable rabbitmq-server
 rabbitmq-plugins enable rabbitmq_management
 mkdir /etc/rabbitmq/ssl
-cp ./server/cert.pem /etc/rabbitmq/ssl/
-cp ./server/key.pem /etc/rabbitmq/ssl/
-cp ./ca/cacert.pem /etc/rabbitmq/ssl/
+cp server/cert.pem /etc/rabbitmq/ssl/
+cp server/key.pem /etc/rabbitmq/ssl/
+cp ca/cacert.pem /etc/rabbitmq/ssl/
 rabbitmqctl add_user $RMQ_ADMIN $RMQ_PASSWORD
 rabbitmqctl set_user_tags $RMQ_ADMIN administrator
 rabbitmqctl set_permissions -p / $RMQ_ADMIN ".*" ".*" ".*"
@@ -34,7 +34,7 @@ wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq-env.conf  -O /etc/rabbitmq/rabbitmq-env.conf
 chown rabbitmq:rabbitmq /etc/rabbitmq/* -R
 systemctl restart rabbitmq-server
-if if [ "$MASTERNODE" == "$HOSTNAME" ]
+if [ "$MASTERNODE" == "$HOSTNAME" ]
     then
         
     else

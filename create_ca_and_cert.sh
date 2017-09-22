@@ -92,38 +92,6 @@ subjectAltName = @alt_names
 DNS.1 = $CERT_CN
 DNS.2 = $CERT_AN1
 DNS.3 = $CERT_AN2
-
-[ server_ca_extensions ]
-basicConstraints = CA:false
-keyUsage = keyEncipherment
-extendedKeyUsage = 1.3.6.1.5.5.7.3.1
-subjectAltName = @alt_names" >> openssl.cnf
-mkdir certs private
-chmod 700 private/
-echo 01 > serial
-touch index.txt
-openssl req -x509 -config openssl.cnf -newkey rsa:2048 -days 3650 -out cacert.pem -outform PEM -subj /CN=testca/ -nodes
-cd ..
-mkdir server
-cd server
-echo "[req]
-distinguished_name = req_distinguished_name
-req_extensions = v3_req
-prompt = no
-[req_distinguished_name]
-C = $CERT_COUNTRY
-ST = $CERT_STATE
-L = $CERT_LOCATION
-O = $CERT_ORGANISATION
-CN = $CERT_CN
-[v3_req]
-keyUsage = keyEncipherment, dataEncipherment
-extendedKeyUsage = serverAuth
-subjectAltName = @alt_names
-[alt_names]
-DNS.1 = $CERT_CN
-DNS.2 = $CERT_AN1
-DNS.3 = $CERT_AN2
 DNS.4 = $CERT_AN3" >> req.conf
 openssl genrsa -out key.pem 2048
 openssl req -new -key key.pem -out req.pem -config req.conf

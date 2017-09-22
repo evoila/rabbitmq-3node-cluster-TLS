@@ -7,10 +7,6 @@ yum install wget -y
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
 chmod +x create_ca_and_cert.sh
 source ./create_ca_and_cert.sh
-cp server/cert.pem /etc/rabbitmq/ssl/
-cp server/key.pem /etc/rabbitmq/ssl/
-cp ca/cacert.pem /etc/rabbitmq/ssl/
-cat /etc/rabbitmq/ssl/cert.pem /etc/rabbitmq/ssl/key.pem > /etc/rabbitmq/ssl/inter-node.pem
 yum install epel-release -y
 wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
 rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
@@ -27,6 +23,7 @@ mkdir /etc/rabbitmq/ssl
 cp server/cert.pem /etc/rabbitmq/ssl/
 cp server/key.pem /etc/rabbitmq/ssl/
 cp ca/cacert.pem /etc/rabbitmq/ssl/
+cat /etc/rabbitmq/ssl/cert.pem /etc/rabbitmq/ssl/key.pem > /etc/rabbitmq/ssl/inter-node.pem
 rabbitmqctl add_user $RMQ_ADMIN $RMQ_PASSWORD
 rabbitmqctl set_user_tags $RMQ_ADMIN administrator
 rabbitmqctl set_permissions -p / $RMQ_ADMIN ".*" ".*" ".*"

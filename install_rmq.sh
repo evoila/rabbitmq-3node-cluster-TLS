@@ -2,11 +2,7 @@
 export MASTERNODE=rmq-1
 export RMQ_ADMIN=admin
 export RMQ_PASSWORD=password
-
 yum install wget -y
-wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
-chmod +x create_ca_and_cert.sh
-source ./create_ca_and_cert.sh
 yum install epel-release -y
 wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
 rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
@@ -20,6 +16,9 @@ systemctl start rabbitmq-server
 systemctl enable rabbitmq-server
 rabbitmq-plugins enable rabbitmq_management
 mkdir /etc/rabbitmq/ssl
+wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
+chmod +x create_ca_and_cert.sh
+source ./create_ca_and_cert.sh
 cp server/cert.pem /etc/rabbitmq/ssl/
 cp server/key.pem /etc/rabbitmq/ssl/
 cp ca/cacert.pem /etc/rabbitmq/ssl/

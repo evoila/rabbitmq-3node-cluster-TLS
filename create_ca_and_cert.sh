@@ -98,3 +98,4 @@ openssl req -new -key key.pem -out req.pem -config req.conf
 cd ..
 cd ca/
 openssl ca -config openssl.cnf -in ../server/req.pem -out ../server/cert.pem -notext -batch -extensions server_ca_extensions
+cd ..

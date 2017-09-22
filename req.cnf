@@ -1,0 +1,19 @@
+[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = $CERT_COUNTRY
+ST = $CERT_STATE
+L = $CERT_LOCATION
+O = $CERT_ORGANISATION
+CN = $CERT_CN
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $CERT_CN
+DNS.2 = $CERT_AN1
+DNS.3 = $CERT_AN2
+DNS.4 = $CERT_AN3

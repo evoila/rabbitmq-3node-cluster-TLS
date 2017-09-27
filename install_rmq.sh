@@ -34,8 +34,6 @@ if [ "$MASTERNODE" == "$HOSTNAME" ]
         cp server/key.pem /etc/rabbitmq/ssl/
         cp ca/cacert.pem /etc/rabbitmq/ssl/
         cat /etc/rabbitmq/ssl/cert.pem /etc/rabbitmq/ssl/key.pem > /etc/rabbitmq/ssl/inter-node.pem
-    else
-
 fi
 if [ "$RMQCLUSTER" == "true" ]
 then

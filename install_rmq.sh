@@ -1,6 +1,7 @@
 #! /bin/sh
 export RMQ_ADMIN=admin
 export RMQ_PASSWORD=password
+export RMQCLUSTER=true
 yum install wget -y
 yum install epel-release -y
 wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
@@ -12,9 +13,6 @@ rpm -ihv rmq.npm
 rabbitmq-plugins enable rabbitmq_management
 systemctl stop rabbitmq-server
 mkdir /etc/rabbitmq/ssl
-wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
-chmod +x create_ca_and_cert.sh
-source ./create_ca_and_cert.sh
 cp server/cert.pem /etc/rabbitmq/ssl/
 cp server/key.pem /etc/rabbitmq/ssl/
 cp ca/cacert.pem /etc/rabbitmq/ssl/
@@ -27,6 +25,19 @@ systemctl restart rabbitmq-server
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq.config -O /etc/rabbitmq/rabbitmq.config
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq-env.conf  -O /etc/rabbitmq/rabbitmq-env.conf
 chown rabbitmq:rabbitmq /etc/rabbitmq/* -R
-systemctl restart rabbitmq-server
-rabbitmqctl set_policy ha-all “” ‘{“ha-mode”:“all”,“ha-sync-mode”:“automatic”}’
-systemctl restart rabbitmq-server
+if [ "$RMQCLUSTER" == "true" ]
+then
+    wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/join_cluster.sh -O /etc/rabbitmq/join_cluster.sh
+    chmod +x /etc/rabbitmq/join_cluster.sh
+    echo "source /etc/rabbitmq/join_cluster.sh" >> /etc/rc.d/rc.local
+    chmod +x /etc/rc.d/rc.local
+    reboot
+else
+    wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
+    chmod +x create_ca_and_cert.sh
+    source ./create_ca_and_cert.sh
+    mkdir /etc/rabbitmq/ssl 
+    cp server/cert.pem /etc/rabbitmq/ssl/
+    cp server/key.pem /etc/rabbitmq/ssl/
+    cp ca/cacert.pem /etc/rabbitmq/ssl/
+fi

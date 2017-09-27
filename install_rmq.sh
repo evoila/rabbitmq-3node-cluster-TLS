@@ -1,5 +1,6 @@
 #! /bin/sh
 export RMQ_ADMIN=admin
+export MASTERNODE=rmq-1
 #echo "Please enter the Password for the RabbitMQ admin" 
 #read -sr RMQ_PASSWORD_INPUT
 #export RMQ_PASSWORD=$RMQ_PASSWORD_INPUT

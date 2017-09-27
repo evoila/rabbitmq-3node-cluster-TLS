@@ -1,9 +1,6 @@
 export MASTERNODE=rmq-1
 if [ "$MASTERNODE" == "$HOSTNAME" ]
     then
-      
-        systemctl 
-
     else
         mkdir /etc/rabbitmq/ssl
         scp centos@$MASTERNODE:/usr/share/ssl/* /etc/rabbitmq/ssl/

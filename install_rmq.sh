@@ -23,9 +23,9 @@ wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq-env.conf  -O /etc/rabbitmq/rabbitmq-env.conf
 if [ "$MASTERNODE" == "$HOSTNAME" ]
     then
-       wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
+        wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
         chmod +x create_ca_and_cert.sh
-        source ./create_ca_and_cert.sh
+        ./create_ca_and_cert.sh
         mkdir /etc/rabbitmq/ssl /usr/share/ssl/
         cp server/cert.pem /usr/share/ssl/
         cp server/key.pem /usr/share/ssl/

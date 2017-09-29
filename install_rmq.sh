@@ -7,6 +7,7 @@ export MASTERNODE=rmq-1
 export RMQ_PASSWORD=password
 #echo "Do you want to deploy a RabbitMQ Cluster node?(yes/no)" 
 export RMQCLUSTER=true
+export RMQ_ERL_COOKIE=VQCCPWRSAGYANOZGJPYC
 yum install wget -y
 yum install epel-release -y
 wget https://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
@@ -22,15 +23,16 @@ rabbitmqctl set_user_tags $RMQ_ADMIN administrator
 rabbitmqctl set_permissions -p / $RMQ_ADMIN ".*" ".*" ".*"
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq.config -O /etc/rabbitmq/rabbitmq.config
 wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/rabbitmq-env.conf  -O /etc/rabbitmq/rabbitmq-env.conf
+echo $RMQ_ERL_COOKIE > /var/lib/rabbitmq/.erlang.cookie
 if [ "$MASTERNODE" == "$HOSTNAME" ]
     then
         wget https://raw.githubusercontent.com/evoila/vcd-rabbitmq-cluster-config/master/create_ca_and_cert.sh
         chmod +x create_ca_and_cert.sh
         ./create_ca_and_cert.sh
-        mkdir /etc/rabbitmq/ssl /usr/share/ssl/
-        cp server/cert.pem /usr/share/ssl/
-        cp server/key.pem /usr/share/ssl/
-        cp ca/cacert.pem /usr/share/ssl/
+        mkdir /etc/rabbitmq/ssl /usr/share/rabbitmq/
+        cp server/cert.pem /usr/share/rabbitmq/
+        cp server/key.pem /usr/share/rabbitmq/
+        cp ca/cacert.pem /usr/share/rabbitmq/
         cp server/cert.pem /etc/rabbitmq/ssl/
         cp server/key.pem /etc/rabbitmq/ssl/
         cp ca/cacert.pem /etc/rabbitmq/ssl/

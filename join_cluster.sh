@@ -4,6 +4,7 @@ if [ "$MASTERNODE" != "$HOSTNAME" ]
         mkdir /etc/rabbitmq/ssl
         scp $MASTERNODE:/usr/share/ssl/* /etc/rabbitmq/ssl/
         chown rabbitmq:rabbitmq /etc/rabbitmq/* -R
+        cat /etc/rabbitmq/ssl/cert.pem /etc/rabbitmq/ssl/key.pem > /etc/rabbitmq/ssl/inter-node.pem
         rabbitmqctl stop_app
         rabbitmqctl join_cluster rabbit@$MASTERNODE
         rabbitmqctl start_app

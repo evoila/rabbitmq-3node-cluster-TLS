@@ -85,7 +85,7 @@ L = $CERT_LOCATION
 O = $CERT_ORGANISATION
 CN = $CERT_CN
 [v3_req]
-keyUsage = keyEncipherment, dataEncipherment
+keyUsage = digitalSignature, keyEncipherment, dataEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
